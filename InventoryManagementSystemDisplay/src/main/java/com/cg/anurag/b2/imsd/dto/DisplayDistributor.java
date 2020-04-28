@@ -15,9 +15,9 @@ public class DisplayDistributor {
 	@Column(name="address")
 	String address;
 	@Column(name="phoneno")
-	double phoneno;
+	String phoneno;
 	public DisplayDistributor() {}
-	public DisplayDistributor(String distributorId, String name, String address, double phoneno) {
+	public DisplayDistributor(String distributorId, String name, String address, String phoneno) {
 		this.distributorId = distributorId;
 		this.name = name;
 		this.address = address;
@@ -41,10 +41,10 @@ public class DisplayDistributor {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public double getPhoneno() {
+	public String getPhoneno() {
 		return phoneno;
 	}
-	public void setPhoneno(double phoneno) {
+	public void setPhoneno(String phoneno) {
 		this.phoneno = phoneno;
 	}
 	
