@@ -38,10 +38,12 @@ public class RawMaterialOrder {
 	private Date expirydate;
 	@Column(name="deliverystatus")
 	private String deliverystatus;
+	@Column(name="rawmaterialid")
+	private String rawmaterialId;
 	public RawMaterialOrder() {}
 	public RawMaterialOrder(int orderId, String rawmaterialname, double priceperunit, double quantityvalue,
 			double totalprice, String warehouseId, String supplierId, LocalDate dateoforder, LocalDate dateofdelivery,
-			Date manufacturingdate, Date expirydate, String deliverystatus) {
+			Date manufacturingdate, Date expirydate, String deliverystatus, String rawmaterialId) {
 		this.orderId = orderId;
 		this.rawmaterialname = rawmaterialname;
 		this.priceperunit = priceperunit;
@@ -54,6 +56,7 @@ public class RawMaterialOrder {
 		this.manufacturingdate = manufacturingdate;
 		this.expirydate = expirydate;
 		this.deliverystatus = deliverystatus;
+		this.rawmaterialId = rawmaterialId;
 	}
 	public int getOrderId() {
 		return orderId;
@@ -127,7 +130,11 @@ public class RawMaterialOrder {
 	public void setDeliverystatus(String deliverystatus) {
 		this.deliverystatus = deliverystatus;
 	}
-	
-	
-	
+	public String getRawmaterialId() {
+		return rawmaterialId;
+	}
+	public void setRawmaterialId(String rawmaterialId) {
+		this.rawmaterialId = rawmaterialId;
+	}
 }
+	

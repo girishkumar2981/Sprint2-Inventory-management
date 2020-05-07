@@ -13,7 +13,7 @@ import com.cg.anurag.b2.imsdrs.dto.RawMaterialSpecs;
 import com.cg.anurag.b2.imsdrs.service.RawMaterialSpecsService;
 
 @RestController
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin()
 public class RawMaterialSpecsController {
 @Autowired
 RawMaterialSpecsService rmss;
