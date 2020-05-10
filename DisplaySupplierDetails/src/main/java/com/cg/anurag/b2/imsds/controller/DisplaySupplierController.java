@@ -1,6 +1,7 @@
 package com.cg.anurag.b2.imsds.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.cg.anurag.b2.imsds.dto.DisplaySupplier;
 import com.cg.anurag.b2.imsds.exception.IdNotFoundException;
@@ -24,18 +26,27 @@ import com.cg.anurag.b2.imsds.service.DisplaySupplierService;
 public class DisplaySupplierController {
 @Autowired
 DisplaySupplierService dss;
+@Autowired
+RestTemplate rest;
 public void setDss(DisplaySupplierService dss) {
 	this.dss = dss;
 }
 @GetMapping("/GetSupplierDetail/{supplierId}")
 private ResponseEntity<DisplaySupplier> getSupplierDetail(@PathVariable String supplierId) {
+	try
+	{
 	DisplaySupplier d = dss.getSupplierDetails(supplierId);
-	if (d == null) {
-		throw new IdNotFoundException("Id does not exist,so we couldn't fetch details");
-	} else {
+	if (d!=null) {
 		return new ResponseEntity<DisplaySupplier>(d, new HttpHeaders(), HttpStatus.OK);
+	} else {
+		throw new NoSuchElementException();
 	}
-}
+	}
+	catch(NoSuchElementException e)
+	{
+		return new ResponseEntity("SupplierId does not exist,so we couldn't fetch details",new HttpHeaders(), HttpStatus.NOT_FOUND);
+	}
+	}
 @DeleteMapping("/DeleteSupplier/{supplierId}")
 private ResponseEntity<String> deleteSupplier(@PathVariable String supplierId)
 	{

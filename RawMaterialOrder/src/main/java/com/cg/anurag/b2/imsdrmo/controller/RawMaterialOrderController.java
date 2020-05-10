@@ -2,6 +2,8 @@ package com.cg.anurag.b2.imsdrmo.controller;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +32,8 @@ RawMaterialOrderService rmos;
 public void setRmos(RawMaterialOrderService rmos) {
 	this.rmos = rmos;
 }
+@Autowired
+RestTemplate rest;
 @GetMapping(value="/getrawmaterialorder/supplierid/{supplierId}/deliverystatus/{deliverystatus}/startDate/{startDate}/endDate/{endDate}",produces= {"application/json","application/xml"})
 public ResponseEntity<Orders> getRawMaterialOrder(@PathVariable String supplierId,@PathVariable String deliverystatus,@PathVariable String startDate,@PathVariable String endDate)throws ParseException
 {
@@ -59,11 +63,17 @@ public ResponseEntity<RawMaterialOrder> placeorder(@RequestBody RawMaterialSpecs
 
 @GetMapping("/trackorder/{orderId}")
 public ResponseEntity<RawMaterialOrder> getorder(@PathVariable int orderId) {
+	try {
 	RawMaterialOrder d = rmos.trackrawmaterialorder(orderId);
-	if (d == null) {
-		throw new IdNotFoundException("Id does not exist,so we couldn't fetch details");
-	} else {
+	if (d!= null) {
 		return new ResponseEntity<RawMaterialOrder>(d, new HttpHeaders(), HttpStatus.OK);
+	} else {
+		throw new NoSuchElementException();
+	}
+	}
+	catch(NoSuchElementException e)
+	{
+		return new ResponseEntity("orderId doesnot exists",new HttpHeaders(),HttpStatus.NOT_FOUND);
 	}
 }
 @PutMapping("/Updatedeliverystatus/{orderId}/{deliverystatus}")

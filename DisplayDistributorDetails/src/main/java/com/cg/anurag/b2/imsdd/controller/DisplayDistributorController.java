@@ -60,7 +60,12 @@ private ResponseEntity<String> deleteDistributor(@PathVariable String distributo
 private ResponseEntity<List<DisplayDistributor>> getAllDistributors() 
     {
 	List<DisplayDistributor> distributorlist = ddss.getAllDistributors();
-	return new ResponseEntity<List<DisplayDistributor>>(distributorlist, new HttpHeaders(), HttpStatus.OK);
+	if(distributorlist!=null)
+	{
+		return new ResponseEntity<List<DisplayDistributor>>(distributorlist, new HttpHeaders(), HttpStatus.OK);
+	}
+	else
+	return new ResponseEntity("empty", new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 @PostMapping("/addDistributor")
 public ResponseEntity<String>addDistributor(@RequestBody DisplayDistributor d )
